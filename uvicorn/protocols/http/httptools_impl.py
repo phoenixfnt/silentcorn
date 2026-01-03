@@ -540,7 +540,7 @@ class RequestResponseCycle:
             else:
                 num_bytes = len(body)
                 if num_bytes > self.expected_content_length:
-                    raise RuntimeError("Response content longer than Content-Length")
+                    pass
                 else:
                     self.expected_content_length -= num_bytes
                 self.transport.write(body)
@@ -548,7 +548,7 @@ class RequestResponseCycle:
             # Handle response completion
             if not more_body:
                 if self.expected_content_length != 0:
-                    raise RuntimeError("Response content shorter than Content-Length")
+                    pass
                 self.response_complete = True
                 self.message_event.set()
                 if not self.keep_alive:

@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "uvicorn"
+name = "silentcorn"
 dynamic = ["version"]
-description = "The lightning-fast ASGI server."
+description = "The lightning-fast ASGI server (patched to suppress content-length errors)."
 readme = "README.md"
 license = "BSD-3-Clause"
 license-files = ["LICENSE.md"]
@@ -33,7 +33,7 @@ classifiers = [
 ]
 dependencies = [
     "click>=7.0",
-    "h11>=0.8",
+    "silent-h11", 
     "typing_extensions>=4.0; python_version < '3.11'",
 ]
 
@@ -50,8 +50,6 @@ standard = [
 
 [dependency-groups]
 dev = [
-    # We add uvicorn[standard] so `uv sync` considers the extras.
-    "uvicorn[standard]",
     "ruff==0.11.9",
     "pytest==8.3.5",
     "pytest-mock==3.14.0",
@@ -84,7 +82,7 @@ default-groups = ["dev", "docs"]
 required-version = ">=0.8.6"
 
 [project.scripts]
-uvicorn = "uvicorn.main:main"
+silentcorn = "uvicorn.main:main"
 
 [project.urls]
 Changelog = "https://uvicorn.dev/release-notes"
@@ -94,6 +92,9 @@ Source = "https://github.com/Kludex/uvicorn"
 
 [tool.hatch.version]
 path = "uvicorn/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["uvicorn"]
 
 [tool.hatch.build.targets.sdist]
 include = ["/uvicorn", "/tests", "/requirements.txt"]
